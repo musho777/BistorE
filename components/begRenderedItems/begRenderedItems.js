@@ -27,7 +27,6 @@ export const BegRenderedItems = ({
   const [count, setCount] = useState(Number(product_count));
   useEffect(()=>{
     setCount(Number(product_count))
-    console.log(product_count,'product_count')
   },[product_count])
   const dispatch = useDispatch();
   return (

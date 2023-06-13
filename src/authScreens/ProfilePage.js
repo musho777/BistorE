@@ -57,14 +57,10 @@ export default ProfilePage = ({}) => {
       },
     };
     launchImageLibrary(options, response => {
-      console.log("Response = ", response);
 
       if (response.didCancel) {
-        console.log("User cancelled image picker");
       } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
         alert(response.customButton);
       } else {
         // let source = response;
@@ -73,7 +69,6 @@ export default ProfilePage = ({}) => {
         //   uri: "data:image/jpeg;base64," + response,
         // };
         setFilePath(response.assets[0].uri);
-        // console.log(response.assets[0].uri);
       }
     });
   };

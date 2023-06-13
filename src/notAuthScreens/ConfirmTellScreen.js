@@ -112,7 +112,6 @@ export default ConfirmTellScreen = ({ route }) => {
           value={code_verify}
           onChangeText={e => {
             setCodeVerify(e);
-            console.log(e.length)
             if(e.length ===4){
               Keyboard.dismiss()
             }

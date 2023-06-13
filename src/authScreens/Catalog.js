@@ -113,12 +113,10 @@ export default Catalog = () => {
       let favorite = [];
       let basket = [];
       all_product_data.filter((item, index) => {
-        console.log(item,116)
         if (
           item?.has_favorite?.length > 0 &&
           item?.has_favorite[0]?.product_id != undefined
         ) {
-          console.log(item?.has_favorite[0]?.product_id,120)
           favorite.push(Number(item?.has_favorite[0]?.product_id));
         }
 

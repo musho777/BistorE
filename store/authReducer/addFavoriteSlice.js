@@ -37,7 +37,6 @@ const addFavoriteSlice = createSlice({
       })
 
       .addCase(addFavoriteRequest.fulfilled, (state, action) => {
-        // console.log();
         if (action.payload?.status) {
           // state.loading = false;
           state.success_favorite = true;

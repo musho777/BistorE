@@ -61,7 +61,6 @@ export default ShopHistory = ({}) => {
   };
   useEffect(()=>{
     setAllData(all_history)
-    console.log(all_history,55555)
   },[all_history])
 
   const DeleteData = (index) =>{

@@ -124,7 +124,6 @@ export default ConfirmPhoneRegister = ({ route, targetDate }) => {
           value={code_verify}
           onChangeText={e => {
             setCodeVerify(e);
-            console.log(e)
             if(e.length ===4){
               Keyboard.dismiss()
             }

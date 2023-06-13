@@ -184,7 +184,6 @@ export default RegisterScreen = ({ route }) => {
           loading={loading}
           navigation={() => {
             dispatch(clearErrorMessage());
-            console.log(phone.length)
                dispatch(
               registerRequest({
                 name: name,

@@ -51,7 +51,6 @@ const registerSlice = createSlice({
       .addCase(registerRequest.rejected, (state, action) => {
         if (!action.payload.status) {
           state.loading = false;
-          console.log(action.payload?.data,8889)
           if (action.payload?.data) {
             let error = action.payload?.data;
             if (error?.address == "The address field is required.") {

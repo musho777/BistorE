@@ -47,13 +47,8 @@ export default Favorites = () => {
     return isFocuse;
   }, [navigation]);
 
-  // useEffect(() => {
-  //   dispatch(getAllFavoritesRequest({}));
-  //   console.log(88889)
-  // }, [success_favorite, all_favorites, refresh]);
 
   useEffect(() => {
-    console.log(all_favorites,53)
       setAllData(all_favorites)
       setLoading1(false)
   }, [all_favorites])

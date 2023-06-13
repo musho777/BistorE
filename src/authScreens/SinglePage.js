@@ -134,7 +134,6 @@ export default SinglePage = ({ route }) => {
               dispatch(addBasketRequest({id:route.params.parameter,count:count}));
               navigation.navigate('BegPage')
             } else {
-              console.log('888')
               navigation.navigate("BegsStack");
             }
           }} />

@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { BigButton } from "../../components/buttons/bigButton";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "../../components/inputs/phoneInput";
 import { resendCodeVerifyRequest } from "../../store/reducer/resendCodeVerifySlice";
 
@@ -16,8 +16,18 @@ export default ForgotPassword = ({}) => {
   const [phone, setPhone] = useState("");
   const state = useSelector(state => state);
   const { forgot_password_phone_error } = state.resendCodeVerifySlice;
+  const [password,setPassword] = useState('')
+  useEffect(() => {
 
+    const isFocuse = navigation.addListener('focus', () => {
+      setPassword('')
+    });
 
+    return isFocuse;
+  }, [navigation]);
+  useEffect(()=>{
+    setPassword(forgot_password_phone_error)
+  },[forgot_password_phone_error])
   return (
     <Wrapper leftIcon={true} goBack={() => navigation.goBack()}>
       <KeyboardAwareScrollView>
@@ -32,13 +42,12 @@ export default ForgotPassword = ({}) => {
           propsStyle={styles.firstInput}
           value={phone}
           onChangeText={(e) => setPhone(e)}
-          error={forgot_password_phone_error}
+          error={password}
         />
         <BigButton
           buttonText={"Отправить код"}
           navigation={() => {
             dispatch(resendCodeVerifyRequest({ phone: phone })).then(res => {
-              console.log(phone,res)
               if (res.payload?.status) {
                 navigation.navigate("ConfirmTellScreen", {
                   parameter: phone,

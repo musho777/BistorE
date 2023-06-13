@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const addBasketRequest = createAsyncThunk(
   'new_basket',
   async (data, {rejectWithValue}) => {
-    console.log(data)
     const token = await AsyncStorage.getItem('userToken');
     const config = {
       method: 'post',

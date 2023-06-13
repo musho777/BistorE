@@ -44,7 +44,6 @@ const resendCodeVerifySlice = createSlice({
         if (!action.payload.status) {
 
           state.loading = false;
-          console.log(action.payload);
           if (action.payload?.message == "this phone no exist") {
             state.forgot_password_phone_error = "Введите корректный номер телефона";
           } else if (action.payload?.message == "can be required") {

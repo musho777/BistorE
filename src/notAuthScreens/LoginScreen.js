@@ -35,7 +35,6 @@ export default LoginScreen = ({}) => {
     let item ={...password}
     item.password = password_error
     item.phone_error = phone_error
-    console.log(phone,38)
     if(phone.length<18){
       item.phone_error = 'Введите корректный номер телефона '
     }

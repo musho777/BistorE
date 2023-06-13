@@ -42,7 +42,6 @@ export default BegPage = ({}) => {
     let mySum = sum;
     let items = [...allData]
     let i = items.findIndex((el) =>  el.product_id == id)
-    console.log(i);
 
 
     if (type == '+') {
@@ -64,7 +63,6 @@ export default BegPage = ({}) => {
     let sum = 0;
     let count = 0;
     all_basket.forEach(el => {
-      console.log(el.product_count)
       sum += el.product_count * el.basket_product.price;
       count += +el.product_count;
     });
@@ -73,7 +71,6 @@ export default BegPage = ({}) => {
   }
 
   function deleteProductfromBasket(productCount, productPrice, index) {
-    console.log(index)
     let myCount = count;
     let mySum = sum;
     myCount = myCount - productCount;

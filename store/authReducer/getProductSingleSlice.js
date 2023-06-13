@@ -12,7 +12,6 @@ export const getProductSingleRequest = createAsyncThunk(
         `${API_URL}/api/get_product/${data.id}`,
         { headers: { Authorization: "Bearer " + token } },
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
