@@ -32,13 +32,14 @@ const addFavoriteSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(addFavoriteRequest.pending, state => {
-        state.loading = true;
+        // state.loading = true;
         state.success_favorite = false;
       })
 
       .addCase(addFavoriteRequest.fulfilled, (state, action) => {
+        // console.log();
         if (action.payload?.status) {
-          state.loading = false;
+          // state.loading = false;
           state.success_favorite = true;
         }
       })

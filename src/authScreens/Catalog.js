@@ -113,10 +113,12 @@ export default Catalog = () => {
       let favorite = [];
       let basket = [];
       all_product_data.filter((item, index) => {
+        console.log(item,116)
         if (
           item?.has_favorite?.length > 0 &&
           item?.has_favorite[0]?.product_id != undefined
         ) {
+          console.log(item?.has_favorite[0]?.product_id,120)
           favorite.push(Number(item?.has_favorite[0]?.product_id));
         }
 
@@ -163,7 +165,7 @@ export default Catalog = () => {
     }
   };
   const toggleBasket = (item, index) => {
-    dispatch(addBasketRequest(item.id));
+    dispatch(addBasketRequest({id:item.id,count:1}));
     if (selectedBasket.indexOf(item.id) > -1) {
       let newArray = selectedBasket.filter(indexObject => {
         if (indexObject == item.id) {

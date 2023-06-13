@@ -33,24 +33,31 @@ export default Favorites = () => {
   const [refresh, setRefresh] = useState(false);
   const [token, setToken] = useState(false);
   const [allData,setAllData] = useState([])
+  const [loading1,setLoading1] = useState(true)
   useEffect(() => {
     AsyncStorage.getItem('userToken').then(userToken => {
       setToken(userToken);
     });
     const isFocuse = navigation.addListener('focus', () => {
+      setLoading1(true)
+      setAllData([])
       dispatch(getAllFavoritesRequest({}));
     });
 
     return isFocuse;
   }, [navigation]);
 
-  useEffect(() => {
-    dispatch(getAllFavoritesRequest({}));
-  }, [success_favorite, all_favorites, refresh]);
+  // useEffect(() => {
+  //   dispatch(getAllFavoritesRequest({}));
+  //   console.log(88889)
+  // }, [success_favorite, all_favorites, refresh]);
 
   useEffect(() => {
-    setAllData(all_favorites)
+    console.log(all_favorites,53)
+      setAllData(all_favorites)
+      setLoading1(false)
   }, [all_favorites])
+
 
   const onRefresh = useCallback(() => {
     dispatch(clearPagination());
@@ -79,8 +86,8 @@ export default Favorites = () => {
           })
         }
         onPress={() => {
-          deleteProduct(index)
           if (token) {
+            deleteProduct(index)
             dispatch(addFavoriteRequest(item?.get_product?.id));
           } else {
             navigation.navigate('LoginOrRegister');
@@ -89,7 +96,7 @@ export default Favorites = () => {
       />
     );
   };
-
+  
   return (
     <Wrapper
       leftIcon={false}
@@ -101,12 +108,12 @@ export default Favorites = () => {
         data={allData}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
-        // ListFooterComponent={loading ? <ActivityIndicator size={50} /> : null}
+        ListFooterComponent={(loading||loading1) ? <ActivityIndicator  color={'#BF8838'}  size={50} /> : null}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
         ListEmptyComponent={() => {
-          if (allData.length == 0 && !refresh) {
+          if (allData.length == 0 && !refresh && !loading1) {
             return (
               <View style={styles.emptyParent}>
                 <Text style={styles.emptyText}>Нет продуктов</Text>

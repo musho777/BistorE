@@ -33,6 +33,7 @@ export default ShopHistory = ({}) => {
   const { success_delate } = state.deleteHistorySlice;
   const [token, setToken] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [allData,setAllData] = useState([])
 
   useEffect(() => {
     AsyncStorage.getItem("userToken").then(userToken => {
@@ -58,6 +59,16 @@ export default ShopHistory = ({}) => {
       return false;
     }
   };
+  useEffect(()=>{
+    setAllData(all_history)
+    console.log(all_history,55555)
+  },[all_history])
+
+  const DeleteData = (index) =>{
+    let item = [...allData]
+    item.splice(index,1)
+    setAllData(item)
+  }
 
   const renderItem = ({ item, index }) => {
     return (
@@ -76,6 +87,7 @@ export default ShopHistory = ({}) => {
         }
         deleteProduct={
           () => {
+            DeleteData(index)
             dispatch(deleteHistoryRequest(item.id));
           }
         }
@@ -92,7 +104,7 @@ export default ShopHistory = ({}) => {
       styleProps={{ marginBottom: 10 }}
       goBack={() => navigation.goBack()}>
       <FlatList
-        data={all_history}
+        data={allData}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index) => index.toString()}

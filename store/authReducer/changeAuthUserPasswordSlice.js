@@ -61,7 +61,7 @@ const changeAuthUserPasswordSlice = createSlice({
           ) {
             state.old_password_error = "Данные поля обязательны.";
           } else if (action.payload?.data?.old_password == "The old password must be at least 6 characters.") {
-            state.old_password_error = "Пароль должен содержать не менее 6-ти символов.";
+            state.old_password_error = "Неверный старый пароль";
           } else if (action.payload?.message == "not valid old password") {
             state.old_password_error = "Неверный пароль.";
           }

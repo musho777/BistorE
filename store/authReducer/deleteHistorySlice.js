@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const deleteHistoryRequest = createAsyncThunk(
   "delate_history",
   async (id, { rejectWithValue }) => {
+    console.log('788')
     const token = await AsyncStorage.getItem("userToken");
     const config = {
       method: "post",
@@ -19,6 +20,7 @@ export const deleteHistoryRequest = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      console.log(error)
       return rejectWithValue(error.response.data);
     }
   },

@@ -30,6 +30,7 @@ export default SinglePage = ({ route }) => {
       });
 
       const unsubscribe = navigation.addListener("focus", () => {
+        setCount(0)
         dispatch(getProductSingleRequest({ id: route.params.parameter }));
       });
 
@@ -93,12 +94,12 @@ export default SinglePage = ({ route }) => {
             // setCountMinus={() => count > 0 && setCount(count - 1)}
 
             setCountPlus={() => {
-              dispatch(
-                plusMinusBasketRequest({
-                  mat_method: "+",
-                  product_id: route.params.parameter,
-                }),
-              );
+              // dispatch(
+              //   plusMinusBasketRequest({
+              //     mat_method: "+",
+              //     product_id: route.params.parameter,
+              //   }),
+              // );
               //   .then(res => {
               //   if (res.payload?.status)
               //     dispatch(getBasketPriceCountRequest(token));
@@ -109,12 +110,12 @@ export default SinglePage = ({ route }) => {
               if (token) {
                 if (count > 1) {
                   setCount(count - 1);
-                  dispatch(
-                    plusMinusBasketRequest({
-                      mat_method: "-",
-                      product_id: route.params.parameter,
-                    }),
-                  );
+                  // dispatch(
+                  //   plusMinusBasketRequest({
+                  //     mat_method: "-",
+                  //     product_id: route.params.parameter,
+                  //   }),
+                  // );
                   //   .then(res => {
                   //   if (res.payload?.status)
                   //     dispatch(getBasketPriceCountRequest(token));
@@ -130,8 +131,10 @@ export default SinglePage = ({ route }) => {
           />
           <SmallButton buttonText={"В корзину"} navigation={() => {
             if (token) {
-              dispatch(addBasketRequest(route.params.parameter));
+              dispatch(addBasketRequest({id:route.params.parameter,count:count}));
+              navigation.navigate('BegPage')
             } else {
+              console.log('888')
               navigation.navigate("BegsStack");
             }
           }} />

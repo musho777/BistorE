@@ -20,6 +20,7 @@ export default EditPasswordUser = ({}) => {
   const [old_password, setOldPassword] = useState("");
   const [new_password, setNewPassword] = useState("");
   const [new_password_confirmation, setNewPasswordConfirmation] = useState("");
+  const [error,setError] = useState('')
   const state = useSelector(state1 => state1);
   const {
     old_password_error,
@@ -33,7 +34,6 @@ export default EditPasswordUser = ({}) => {
       setToken(userToken);
     });
   }, [navigation]);
-
 
   return (
     <Wrapper
