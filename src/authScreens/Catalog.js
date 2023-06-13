@@ -8,7 +8,7 @@ import { FilterBox } from "../../components/filterBox/filterBox";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../store/authReducer/getCategorySlice";
-import { clearPagination, getAllProductRequest } from "../../store/authReducer/getAllProductSlice";
+import { clearData, clearPagination, getAllProductRequest } from "../../store/authReducer/getAllProductSlice";
 import { TextColor } from "../../components/colors/colors";
 import { addFavoriteRequest } from "../../store/authReducer/addFavoriteSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -39,14 +39,18 @@ export default Catalog = () => {
   const [show_category, setShowCategory] = useState(true);
   const [search, setSearch] = useState("");
   const [searched, setSearched] = useState(true);
+  const [loading1,setLoading1] = useState(true)
 
   useEffect(() => {
     const isFocus = navigation.addListener("focus", () => {
+      setLoading1(true)
+      dispatch(clearData())
       AsyncStorage.getItem("userToken").then(userToken => {
         setToken(userToken);
         dispatch(getCategoryRequest({})).then(async res => {
           await dispatch(clearPagination());
           if (res.payload.status) {
+            setLoading1(false)
             setItemId(res.payload.category[0].id);
             setActive(res.payload.category[0].id);
             dispatch(
@@ -62,6 +66,7 @@ export default Catalog = () => {
           }
         });
       }).catch(() => {
+        setLoading1(false)
         setToken(null);
       });
     });
@@ -69,7 +74,7 @@ export default Catalog = () => {
     return () => {
       return isFocus();
     };
-  }, [navigation, dispatch]);
+  }, [navigation]);
 
   useEffect(() => {
 
@@ -362,12 +367,12 @@ export default Catalog = () => {
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.1}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={loading ? <ActivityIndicator color={'#BF8838'} size={50} /> : null}
-        refreshControl={
+        ListFooterComponent={(loading) ? <ActivityIndicator color={'#BF8838'} size={50} /> : null}
+        refreshControl={ 
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
         ListEmptyComponent={() => {
-          if (!loading && !refresh) {
+          if (!loading && !refresh && !loading1) {
             return (
               <View style={styles.emptyParent}>
                 <Text style={styles.emptyText}>Нет продуктов</Text>

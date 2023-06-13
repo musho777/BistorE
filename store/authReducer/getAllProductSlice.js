@@ -39,6 +39,11 @@ const getAllProductSlice = createSlice({
       state.stop_paginate = false;
       state.all_product_data = [];
     },
+    clearData(state) {
+      state.current_page = 1;
+      state.all_product_data = [];
+      state.loading = true;
+    },
   },
   extraReducers: builder => {
     builder
@@ -87,4 +92,4 @@ const getAllProductSlice = createSlice({
   },
 });
 export default getAllProductSlice.reducer;
-export const { clearPagination } = getAllProductSlice.actions;
+export const { clearPagination,clearData } = getAllProductSlice.actions;
