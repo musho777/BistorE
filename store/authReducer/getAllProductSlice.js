@@ -6,8 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const getAllProductRequest = createAsyncThunk(
   "all_products",
   async (data, { rejectWithValue }) => {
-    const token = await AsyncStorage.getItem("userToken");
-
+    // const token = await AsyncStorage.getItem("userToken");
     try {
       const response = await axios(
         `${API_URL}/api/get_category?page=${data.page}`,

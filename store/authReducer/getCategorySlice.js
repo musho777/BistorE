@@ -9,8 +9,11 @@ export const getCategoryRequest = createAsyncThunk(
     const token = await AsyncStorage.getItem('userToken');
 
     try {
+      var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        myHeaders.append("Content-Type", "application/json");
       const response = await axios.post(`${API_URL}/api/get_category`, {
-        headers: {Authorization: 'Bearer ' + token},
+          headers:myHeaders
       });
       return response.data;
     } catch (error) {
@@ -33,14 +36,14 @@ const getCategorySlice = createSlice({
       })
 
       .addCase(getCategoryRequest.fulfilled, (state, action) => {
-        if (action.payload?.status) {
+        if (action?.payload?.status) {
           state.loading_category = false;
           state.category_data = action.payload?.category;
         }
       })
 
       .addCase(getCategoryRequest.rejected, (state, action) => {
-        if (!action.payload?.status) {
+        if (!action?.payload?.status) {
           state.loading_category = false;
         }
       });

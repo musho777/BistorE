@@ -15,7 +15,7 @@ import { addBasketRequest } from "../../store/authReducer/addBasketSlice";
 import { plusMinusBasketRequest } from "../../store/authReducer/plusMinusBasketSlice";
 
 export default SinglePage = ({ route }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [token, setToken] = useState(null);
   const navigation = useNavigation();
   const state = useSelector(state => state);
@@ -30,7 +30,7 @@ export default SinglePage = ({ route }) => {
       });
 
       const unsubscribe = navigation.addListener("focus", () => {
-        setCount(0)
+        setCount(1)
         dispatch(getProductSingleRequest({ id: route.params.parameter }));
       });
 
@@ -125,7 +125,7 @@ export default SinglePage = ({ route }) => {
                 //   dispatch(delateInBassketRequest(product_id));
                 // }
               } else {
-                count > 0 && setCount(count - 1);
+                count > 1 && setCount(count - 1);
               }
             }}
           />

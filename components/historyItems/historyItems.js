@@ -26,7 +26,7 @@ export const ShopHistoryRenderedItems = ({
           <Text style={styles.title}>{title}</Text>
           <View style={styles.priceGramParent}>
             <Text style={styles.title}>{price} Р</Text>
-            <Text style={styles.gram}>{gram}г</Text>
+            <Text style={styles.gram}>{gram !=='undefined' && gram}</Text>
           </View>
         </View>
         <Text numberOfLines={3} style={styles.info}>

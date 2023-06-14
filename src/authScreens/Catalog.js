@@ -13,6 +13,7 @@ import { TextColor } from "../../components/colors/colors";
 import { addFavoriteRequest } from "../../store/authReducer/addFavoriteSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addBasketRequest } from "../../store/authReducer/addBasketSlice";
+import { delateInBassketRequest } from "../../store/authReducer/delateInBassketSlice";
 
 export default Catalog = () => {
   const [active, setActive] = useState(0);
@@ -61,7 +62,7 @@ export default Catalog = () => {
                 max_price: price_max,
                 category_id: res.payload.category[0].id,
                 page: 1,
-                token: token,
+                token: userToken,
               }),
             );
           }
@@ -78,13 +79,13 @@ export default Catalog = () => {
   }, [navigation]);
 
   useEffect(() => {
-
     AsyncStorage.getItem("userToken").then(userToken => {
       setToken(userToken);
     }).catch(() => {
       setToken(null);
     });
   }, [loading_category]);
+
 
   const handleLoadMore = () => {
     if (!stop_paginate && !loading) {
@@ -104,25 +105,22 @@ export default Catalog = () => {
     }
   };
 
-  useEffect(() => {
-    callBackFunction();
-  }, [category_data, loading_category, all_product_data, current_page]);
   useEffect(()=>{
     setAllData(all_product_data)
+    callBackFunction();
   },[all_product_data])
 
   const callBackFunction = () => {
     if (token) {
       let favorite = [];
       let basket = [];
-      allData.filter((item, index) => {
+      all_product_data.filter((item, index) => {
         if (
           item?.has_favorite?.length > 0 &&
           item?.has_favorite[0]?.product_id != undefined
         ) {
           favorite.push(Number(item?.has_favorite[0]?.product_id));
         }
-
         if (
           item?.has_bascet?.length > 0 &&
           item?.has_bascet[0]?.product_id != undefined
@@ -166,8 +164,9 @@ export default Catalog = () => {
     }
   };
   const toggleBasket = (item, index) => {
-    dispatch(addBasketRequest({id:item.id,count:1}));
     if (selectedBasket.indexOf(item.id) > -1) {
+      // dispatch(addBasketRequest({id:item.id,count:-1}));
+      dispatch(delateInBassketRequest(item.id));
       let newArray = selectedBasket.filter(indexObject => {
         if (indexObject == item.id) {
           return false;
@@ -176,6 +175,8 @@ export default Catalog = () => {
       });
       setSelectBasket(newArray);
     } else {
+      dispatch(addBasketRequest({id:item.id,count:1}));
+
       setSelectBasket([...selectedBasket, item.id]);
     }
   };
@@ -275,7 +276,9 @@ export default Catalog = () => {
               page: 1,
               token: token,
             }),
-          );
+            setOpenFilter(false)
+
+          )
         }}
         clear={() => {
           setItemId("");
@@ -364,7 +367,7 @@ export default Catalog = () => {
       </View>
 
       <FlatList
-        data={all_product_data}
+        data={allData}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
         onEndReached={handleLoadMore}

@@ -129,7 +129,7 @@ export default BegPage = ({}) => {
       image={item?.basket_product?.get_product_image[0]?.image}
       title={item?.basket_product?.title}
       price={item?.basket_product?.price}
-      gram={item?.basket_product?.dimension}
+      gram={ item?.basket_product?.dimension !== "undefined" && item?.basket_product?.dimension}
       info={item?.basket_product?.description}
       product_count={item?.product_count}
       product_id={item.product_id}
