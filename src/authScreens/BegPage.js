@@ -96,7 +96,7 @@ export default BegPage = ({}) => {
           // getProductsPrice()
           AsyncStorage.getItem('userToken').then(userToken => {
             setToken(userToken);
-            // dispatch(getBasketPriceCountRequest(userToken));
+            dispatch(getBasketPriceCountRequest(userToken));
             // dispatch(getBasketPriceCountRequest(userToken)).then(res => {
             //   setAllCount(res.payload.all_count);
             //   setAllPrice(res.payload.all_price);

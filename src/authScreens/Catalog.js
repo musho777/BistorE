@@ -40,7 +40,7 @@ export default Catalog = () => {
   const [search, setSearch] = useState("");
   const [searched, setSearched] = useState(true);
   const [loading1,setLoading1] = useState(true)
-
+  const [allData,setAllData] = useState([])
   useEffect(() => {
     const isFocus = navigation.addListener("focus", () => {
       setLoading1(true)
@@ -48,6 +48,7 @@ export default Catalog = () => {
       AsyncStorage.getItem("userToken").then(userToken => {
         setToken(userToken);
         dispatch(getCategoryRequest({})).then(async res => {
+          setLoading1(false)
           await dispatch(clearPagination());
           if (res.payload.status) {
             setLoading1(false)
@@ -104,15 +105,17 @@ export default Catalog = () => {
   };
 
   useEffect(() => {
-
     callBackFunction();
   }, [category_data, loading_category, all_product_data, current_page]);
+  useEffect(()=>{
+    setAllData(all_product_data)
+  },[all_product_data])
 
   const callBackFunction = () => {
     if (token) {
       let favorite = [];
       let basket = [];
-      all_product_data.filter((item, index) => {
+      allData.filter((item, index) => {
         if (
           item?.has_favorite?.length > 0 &&
           item?.has_favorite[0]?.product_id != undefined

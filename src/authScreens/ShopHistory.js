@@ -34,17 +34,36 @@ export default ShopHistory = ({}) => {
   const [token, setToken] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const [allData,setAllData] = useState([])
+  const [loading1,setLoading] = useState(true)
+
+  // useEffect(() => {
+  //   AsyncStorage.getItem("userToken").then(userToken => {
+  //     setToken(userToken);
+  //     dispatch(getAllHistoryRequest({ token: userToken, page: current_page }));
+  //   });
+  // }, [navigation]);
+
 
   useEffect(() => {
-    AsyncStorage.getItem("userToken").then(userToken => {
-      setToken(userToken);
-      dispatch(getAllHistoryRequest({ token: userToken, page: current_page }));
+    const focus = navigation.addListener('focus', () => {
+      setLoading(true)
+      setAllData([])
+      AsyncStorage.getItem("userToken").then(userToken => {
+        setToken(userToken);
+        dispatch(getAllHistoryRequest({ token: userToken, page: current_page })).then(()=>{
+          setLoading(false)
+        });
+      });
     });
+
+    return () => {
+      return focus();
+    };
   }, [navigation]);
 
-  useEffect(() => {
-    dispatch(getAllHistoryRequest({ token: token, page: 1 }));
-  }, [success_delate]);
+  // useEffect(() => {
+  //   dispatch(getAllHistoryRequest({ token: token, page: 1 }));
+  // }, [success_delate]);
 
   const onRefresh = useCallback(() => {
     dispatch(clearPagination());
@@ -61,6 +80,7 @@ export default ShopHistory = ({}) => {
   };
   useEffect(()=>{
     setAllData(all_history)
+    setLoading(false)
   },[all_history])
 
   const DeleteData = (index) =>{
@@ -109,12 +129,12 @@ export default ShopHistory = ({}) => {
         keyExtractor={(_, index) => index.toString()}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.1}
-        ListFooterComponent={loading ? <ActivityIndicator size={50} /> : null}
+        ListFooterComponent={loading || loading1 ? <ActivityIndicator color={'#BF8838'} size={50} /> : null}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
         ListEmptyComponent={() => {
-          if (!loading && !refresh) {
+          if (!loading && !refresh && !loading1) {
             return (
               <View style={styles.emptyParent}>
                 <Text style={styles.emptyText}>Нет продуктов</Text>
